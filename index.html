@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inove Pizzaria - Cardápio Digital</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse-fast {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .pulse-status {
+      animation: pulse-fast 1.5s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 pb-24">
+
+  <!-- CABEÇALHO COMPACTO -->
+  <header class="bg-orange-600 text-white px-4 py-3 shadow-md text-center">
+    <div class="max-w-md mx-auto">
+      <!-- TÍTULO + STATUS ABERTO -->
+      <div class="flex items-center justify-center gap-2">
+        <span class="text-xl">👨‍🍳</span>
+        <h1 class="text-xl font-bold leading-tight">Inove Pizzaria</h1>
+        <span class="inline-flex items-center gap-1 bg-green-700 text-white text-[10px] px-2 py-0.5 rounded-full font-semibold shadow-inner">
+          <span class="w-1.5 h-1.5 rounded-full bg-green-300 pulse-status"></span>
+          ABERTO
+        </span>
+      </div>
+
+      <!-- SLOGAN + NOTA GOOGLE -->
+      <div class="flex items-center justify-center gap-2 text-xs text-orange-100 mt-1">
+        <span>Sabor Único</span>
+        <span>•</span>
+        <span class="text-yellow-300 font-bold flex items-center gap-0.5">⭐ 4.8 <span class="text-orange-100 font-normal text-[10px]">(+150)</span></span>
+      </div>
+
+      <!-- CONTATOS E TELEFONES REAIS -->
+      <p class="text-[11px] text-orange-100/90 mt-1 leading-tight">
+        📞 (11) 2547-8655 | 📱 (11) 96061-9998 | 🛵 Delivery & iFood
+      </p>
+    </div>
+  </header>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="max-w-md mx-auto p-4">
+
+    <!-- BARRA DE BUSCA -->
+    <div class="mb-4">
+      <input type="text" id="searchInput" onkeyup="filterItems()" placeholder="🔍 Buscar pizza (Ex: Calabresa, Atum, Frango...)" 
+             class="w-full p-3 text-sm rounded-full border border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 bg-white">
+    </div>
+
+    <!-- CATEGORIAS -->
+    <div class="flex gap-2 overflow-x-auto pb-2 mb-4 no-scrollbar">
+      <button onclick="filterCategory('all')" class="cat-btn bg-orange-600 text-white px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">Todas</button>
+      <button onclick="filterCategory('promocoes')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🔥 Promoções</button>
+      <button onclick="filterCategory('salgadas')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🍕 Salgadas</button>
+      <button onclick="filterCategory('doces')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🍫 Doces</button>
+      <button onclick="filterCategory('bebidas')" class="cat-btn bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 px-4 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shadow-sm">🥤 Bebidas</button>
+    </div>
+
+    <!-- LISTA DE PRODUTOS -->
+    <div id="productList" class="space-y-3">
+
+      <!-- ITEM PROMOÇÃO -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="promocoes salgadas" data-name="calabresa">
+        <div class="pr-2">
+          <span class="inline-block bg-orange-100 text-orange-700 text-[10px] font-bold px-2 py-0.5 rounded-md mb-1">Promoção do Dia</span>
+          <h3 class="font-bold text-gray-800 text-sm">Calabresa</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Calabresa fatiada e cebola fresca.</p>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-gray-400 line-through">R$ 55,00</span>
+            <span class="text-xs font-extrabold text-green-700">R$ 49,00</span>
+          </div>
+        </div>
+        <button onclick="addToCart('Calabresa', 'R$ 49,00')" class="bg-orange-50 text-orange-600 hover:bg-orange-100 font-bold text-xs px-3 py-2 rounded-lg border border-orange-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <!-- ITENS EXTRAÍDOS DO CARDÁPIO -->
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="augusta">
+        <div class="pr-2">
+          <span class="inline-block bg-orange-50 text-orange-600 text-[10px] font-bold px-2 py-0.5 rounded-md mb-1">Especial da Casa</span>
+          <h3 class="font-bold text-gray-800 text-sm">Augusta</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Palmito, champignon, mussarela, parmesão e bacon.</p>
+          <p class="text-xs font-extrabold text-gray-800">R$ 55,00</p>
+        </div>
+        <button onclick="addToCart('Augusta', 'R$ 55,00')" class="bg-orange-50 text-orange-600 hover:bg-orange-100 font-bold text-xs px-3 py-2 rounded-lg border border-orange-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="frangopiry">
+        <div class="pr-2">
+          <h3 class="font-bold text-gray-800 text-sm">Frangopiry</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Frango desfiado com cobertura de catupiry.</p>
+          <p class="text-xs font-extrabold text-gray-800">R$ 57,00</p>
+        </div>
+        <button onclick="addToCart('Frangopiry', 'R$ 57,00')" class="bg-orange-50 text-orange-600 hover:bg-orange-100 font-bold text-xs px-3 py-2 rounded-lg border border-orange-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="baiana">
+        <div class="pr-2">
+          <h3 class="font-bold text-gray-800 text-sm">Baiana</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Calabresa moída, cebola, ovo e pimenta.</p>
+          <p class="text-xs font-extrabold text-gray-800">R$ 49,00</p>
+        </div>
+        <button onclick="addToCart('Baiana', 'R$ 49,00')" class="bg-orange-50 text-orange-600 hover:bg-orange-100 font-bold text-xs px-3 py-2 rounded-lg border border-orange-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="cinco queijos">
+        <div class="pr-2">
+          <h3 class="font-bold text-gray-800 text-sm">Cinco Queijos</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Mussarela, provolone, parmesão, catupiry e gorgonzola.</p>
+          <p class="text-xs font-extrabold text-gray-800">R$ 65,00</p>
+        </div>
+        <button onclick="addToCart('Cinco Queijos', 'R$ 65,00')" class="bg-orange-50 text-orange-600 hover:bg-orange-100 font-bold text-xs px-3 py-2 rounded-lg border border-orange-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+      <div class="menu-item bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start" data-category="salgadas" data-name="atum">
+        <div class="pr-2">
+          <h3 class="font-bold text-gray-800 text-sm">Atum</h3>
+          <p class="text-xs text-gray-500 mt-0.5 mb-2">Atum sólido e cebola fresca.</p>
+          <p class="text-xs font-extrabold text-gray-800">R$ 52,00</p>
+        </div>
+        <button onclick="addToCart('Atum', 'R$ 52,00')" class="bg-orange-50 text-orange-600 hover:bg-orange-100 font-bold text-xs px-3 py-2 rounded-lg border border-orange-200 whitespace-nowrap">
+          + Adicionar
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- SCRIPT DE FILTROS E BUSCA -->
+  <script>
+    function filterCategory(category) {
+      const items = document.querySelectorAll('.menu-item');
+      const buttons = document.querySelectorAll('.cat-btn');
+
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-orange-600', 'text-white');
+        btn.classList.add('bg-white', 'text-gray-700');
+      });
+      event.currentTarget.classList.remove('bg-white', 'text-gray-700');
+      event.currentTarget.classList.add('bg-orange-600', 'text-white');
+
+      items.forEach(item => {
+        const itemCategories = item.getAttribute('data-category');
+        if (category === 'all' || itemCategories.includes(category)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function filterItems() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.menu-item');
+
+      items.forEach(item => {
+        const name = item.getAttribute('data-name');
+        if (name.includes(input)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function addToCart(nome, preco) {
+      const mensagem = encodeURIComponent(`Olá! Gostaria de pedir: ${nome} (${preco})`);
+      window.open(`https://wa.me/5511960619998?text=${mensagem}`, '_blank');
+    }
+  </script>
+
+</body>
+</html>
